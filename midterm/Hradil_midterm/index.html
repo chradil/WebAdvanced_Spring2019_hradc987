@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Women's Marches and Trump Rallies</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="main-content">
+	<div class="navbar">
+		<nav>
+			<li><a class="women" href="#women">Women's Marches</a></li>
+			<li><a class="ampersand">&</a></li>
+
+			<li><a class="trump" href="#trump">Trump Rallies</a></li>
+
+		</nav>
+	</div>
+	<div id = "spacing"> this is for spacing</div>
+
+
+<div id="women">
+	<div class = "meta-list">
+
+	</div>
+</div>	
+
+<div id="trump">
+	<div class = "meta-list">
+	</div>
+</div>
+
+	<div id = "buttons">
+	<button class="abt">About this project</button>
+	</div>
+
+<div class="about">
+	<div class="overlay"></div>
+	<div class="container">
+		<h3 class="abt-text">About this project</h3>
+		<p class ="abt-text"> This is my Javascript midterm that describes a thing about trump and women's marches</p>
+		<span class="close">x</span>
+	</div>
+</div>
+</div>
+<script id="meta-template" type="text/x-handlebars-template">
+		{{#each this}}
+			<div>
+				<li data-index="{{id}}">
+					<a href="#" class="map-img"><img src="{{map}}" height="250" alt="{{title}}"/></a>
+
+				<h3>{{title}}</h3>
+
+				<ul>
+
+				<li><span>Dates: </span>{{dates}}</li>
+				
+				<li><span>Number of rallies: 
+				</span>{{number-marches}}</li>
+
+				<li><span>Attendance range: </span>{{attendance-range}}</li>
+				</ul>
+
+				</div>
+		{{/each}}
+
+					
+		</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
+
+<script type = "text/javascript" src = "js/scripts.js"></script>
+
+
+</body>
+</html>
