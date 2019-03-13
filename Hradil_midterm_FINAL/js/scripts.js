@@ -3,6 +3,8 @@ window.addEventListener('DOMContentLoaded', function(e){
 	e.preventDefault(); 
 	console.log("js is linked");
 
+var metadata = [];
+
 scrollEvent();
 
 attachEvents();
@@ -42,11 +44,6 @@ $(window).scroll(function(){
 		}
 	}
 
-
-
-//var womenOff = $('#women').offset().top -50;
-//var trumpOff = $('#trump').offset().top -50;
-
 })
 
 
@@ -75,11 +72,15 @@ function attachEvents(){
 		$('.close').click(function (e) {
 		e.preventDefault();
 		window.location.hash = '#';
+
+		var page = $('.about');
+		page.removeClass('visible');
+
 		});
 }
 
 function loadData(){
-	$.getJSON("data.json", function(data){
+	$.getJSON("js/data.json", function(data){
 
 		metadata = data;
 		generateAllMetaHTML(metadata);
@@ -90,7 +91,8 @@ function loadData(){
 
 function generateAllMetaHTML(data){
 
-	var shell = $('.main-content .meta-list');
+	var shell = $('.meta-list');
+	console.log(shell);
 	var source = $('#meta-template').html();
 	var template = Handlebars.compile(source);
 
@@ -107,7 +109,6 @@ function render(url) {
 		$('.main-content').removeClass('visible');
 
 		var map = {
-			//this is the landing page 
 
 			'': function(){
 
@@ -124,7 +125,6 @@ function render(url) {
 		}	
 	}
 
-//these are my pages
 
 	function renderAboutPage(){
 		var page = $('.about');

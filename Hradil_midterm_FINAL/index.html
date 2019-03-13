@@ -18,19 +18,15 @@
 
 		</nav>
 	</div>
-	<div id = "spacing"> this is for spacing</div>
-
-
-<div id="women">
-	<div class = "meta-list">
-
+	<div id = "spacing">
+		<br><br><br>
+		<img src="data/social-wk2-alt.jpg" alt="map" width=1300px>
 	</div>
-</div>	
 
-<div id="trump">
+
 	<div class = "meta-list">
 	</div>
-</div>
+
 
 	<div id = "buttons">
 	<button class="abt">About this project</button>
@@ -39,28 +35,36 @@
 <div class="about">
 	<div class="overlay"></div>
 	<div class="container">
-		<h3 class="abt-text">About this project</h3>
-		<p class ="abt-text"> This is my Javascript midterm that describes a thing about trump and women's marches</p>
+	
+		<p class ="abt-text">This project maps the locations and sizes of Donald Trump's speeches and rallies during the 2016 presidential campaign against the locations and sizes of women's marches that protested Trump's inauguration in 2017. 
+			<br><br>
+		The maps demonstrate the political cognitive dissonance that contextualized Trump's election, with women's marches and Trump rallies sometimes taking place in the same towns.
+			<br><br><br>
+		Data source: <a href="https://public.enigma.com/datasets/protest-data-womens-marches-crowd-sizes/40865117-48fc-4abe-b384-13edc370a523">Enigma, "Protest Data - Women's March Crowd Sizes"</a>
+		</p>
 		<span class="close">x</span>
 	</div>
 </div>
 </div>
 <script id="meta-template" type="text/x-handlebars-template">
 		{{#each this}}
-			<div>
+			{{#if @last}}<div id = "trump">
+				{{else}} <div id ="women">
+					{{/if}}
 				<li data-index="{{id}}">
-					<a href="#" class="map-img"><img src="{{map}}" height="250" alt="{{title}}"/></a>
-
-				<h3>{{title}}</h3>
+					<br>
+				<h3 class = "list">{{title}}</h3>
 
 				<ul>
 
-				<li><span>Dates: </span>{{dates}}</li>
+				<li class = "list"><span>Dates: </span>{{dates}}</li>
 				
-				<li><span>Number of rallies: 
+				<li class = "list"><span>Number of rallies: 
 				</span>{{number-marches}}</li>
 
-				<li><span>Attendance range: </span>{{attendance-range}}</li>
+				<li class = "list"><span>Attendance range: </span>{{attendance-range}}</li>
+
+				<a href="#" class="map-img"><img src="{{map}}" height="500px"  alt="{{title}}"/></a>
 				</ul>
 
 				</div>

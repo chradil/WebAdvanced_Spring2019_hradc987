@@ -2,7 +2,7 @@
 	{
 		"id": 1,
 		"title": "Women's Marches Protesting the Inauguration of Donald Trump",
-		"map": "data/social-wk2-alt.jpg",
+		"map": "data/womens-march-women.jpg",
 		"dates": "January 21, 2017",
 		"number-marches": "541 marches",
 		"attendance-range":"1-475,000 people"
@@ -10,7 +10,7 @@
 	{
 		"id": 2,
 		"title": "Donald Trump's Speeches and Rallies during the 2016 Presidential Campaign",
-		"map": "data/social-wk2-alt.jpg",
+		"map": "data/womens-march-trump.jpg",
 		"dates": "June-November 2016",
 		"number-marches": "124 rallies",
 		"attendance-range":"600-28,000 people"
