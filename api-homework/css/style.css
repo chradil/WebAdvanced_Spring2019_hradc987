@@ -1,0 +1,36 @@
+/* your style begins here */
+html, body {
+	background-color: none;
+}
+
+#json-container{
+	font-size: 20px;
+	color: dimgray;
+	padding: 30px;
+	display: block;
+	margin: 30px; 
+
+}
+
+#btn{
+	background-color: red;
+	color:white;
+	width: 20vw;
+	padding: 20px;
+	border-radius: 15px;
+	font-size: 30px;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 50px;
+
+}
+
+#btn:hover{
+	background-color: black;
+	color: white;
+	cursor: pointer;
+}
+
+.cat-img{
+	max-width: 40vw;
+}

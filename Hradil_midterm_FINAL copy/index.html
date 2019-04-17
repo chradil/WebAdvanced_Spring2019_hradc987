@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Women's Marches and Trump Rallies</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="main-content">
+	<div class="navbar">
+		<nav>
+			<li><a class="women" href="#women">Women's Marches</a></li>
+			<li><a class="ampersand">&</a></li>
+
+			<li><a class="trump" href="#trump">Trump Rallies</a></li>
+
+		</nav>
+	</div>
+	<div id = "spacing">
+		<br><br><br>
+		<img src="data/social-wk2-alt.jpg" alt="map" width=1300px>
+	</div>
+
+
+	<div class = "meta-list">
+	</div>
+
+
+	<div id = "buttons">
+	<button class="abt">About this project</button>
+	</div>
+
+<div class="about">
+	<div class="overlay"></div>
+	<div class="container">
+	
+		<p class ="abt-text">This project maps the locations and sizes of Donald Trump's speeches and rallies during the 2016 presidential campaign against the locations and sizes of women's marches that protested Trump's inauguration in 2017. 
+			<br><br>
+		The maps demonstrate the political cognitive dissonance that contextualized Trump's election, with women's marches and Trump rallies sometimes taking place in the same towns.
+			<br><br><br>
+		Data source: <a href="https://public.enigma.com/datasets/protest-data-womens-marches-crowd-sizes/40865117-48fc-4abe-b384-13edc370a523">Enigma, "Protest Data - Women's March Crowd Sizes"</a>
+		</p>
+		<span class="close">x</span>
+	</div>
+</div>
+</div>
+<script id="meta-template" type="text/x-handlebars-template">
+		{{#each this}}
+			{{#if @last}}<div id = "trump">
+				{{else}} <div id ="women">
+					{{/if}}
+				<li data-index="{{id}}">
+					<br>
+				<h3 class = "list">{{title}}</h3>
+
+				<ul>
+
+				<li class = "list"><span>Dates: </span>{{dates}}</li>
+				
+				<li class = "list"><span>Number of rallies: 
+				</span>{{number-marches}}</li>
+
+				<li class = "list"><span>Attendance range: </span>{{attendance-range}}</li>
+
+				<a href="#" class="map-img"><img src="{{map}}" height="500px"  alt="{{title}}"/></a>
+				</ul>
+
+				</div>
+		{{/each}}
+
+					
+		</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
+
+<script type = "text/javascript" src = "js/scripts.js"></script>
+
+
+</body>
+</html>
