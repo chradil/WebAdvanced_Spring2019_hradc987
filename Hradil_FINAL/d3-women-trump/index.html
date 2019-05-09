@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Women's Marches and Trump Rallies</title>
+	 <script src='https://d3js.org/d3.v4.min.js'></script>
+	 <script src="womensMarches.js"></script>
+	 <script src="gz_2010_us_outline_5m.js"></script>
+	 <script src="trumpRally.js"></script>
+</head>
+<style>
+
+	@import 'https://fonts.googleapis.com/css?family=Roboto';
+
+	body{
+	font-size:14px;
+	font-family: 'Roboto', sans-serif;
+	background-color:#4d4d4d;
+	}
+	.screen{
+		margin: auto;
+		width:1000px;
+		height:500px;
+		border: 1px solid #000;
+		background-color:lightgrey;
+	}
+
+	a{
+		color:lightgrey;
+	}
+
+	div.tooltip_red {	
+    	position: absolute;			
+    	text-align: center;			
+    	width: 80px;					
+    	height: 25px;					
+    	padding: 2px;				
+    	font: 12px sans-serif;		
+    	background: darksalmon;	
+    	border: 1px solid white;		
+    	border-radius: 8px;			
+    	pointer-events: none;	
+	}
+    div.tooltip_blue {	
+    	position: absolute;			
+    	text-align: center;			
+    	width: 80px;					
+    	height: 25px;					
+    	padding: 2px;				
+    	font: 12px sans-serif;		
+    	background: lightsteelblue;	
+    	border: 1px solid white;		
+    	border-radius: 8px;			
+    	pointer-events: none;
+	}
+	div.bottom-container {
+		display:block;
+		text-align:left;
+		width:100%;
+		height:160px;
+		background-color:black;
+		padding-top:5px;
+	}
+	div.about {
+		display:block;
+		text-align:left;
+		width:100%;
+		height:300px;
+		background-color: #4d4d4d;
+		padding-top:5px;
+	}
+	div.pullout {
+		position:relative;
+		display:block;
+		text-align:left;
+		color:white;
+		width:20%;
+		height:70px;
+		background-color:black;
+		padding:5px;
+		margin:auto;
+	}
+	div.svg2 {
+		position:relative;
+		display:block;
+		text-align:left;
+		width:20%;
+		height:70px;
+		padding:5px;
+		background-color:black;
+		margin:auto;
+	
+	}
+    .navbar{
+		background-color: black;
+		width: 100vw;
+		height: 150px;
+		margin-left: -8px;
+		margin-top: -50px;
+		z-index: 10;
+		position:relative;
+
+	}
+
+	.navbar nav{
+		align-content: center;
+		text-decoration: none;
+		text-align: center;
+		list-style-type: none;
+		padding-top: 11px;
+		width: 100vw;
+		height: 150px;
+		margin-left: 0vw;
+		margin-top: -50px;
+		z-index: 20; 
+
+	}
+
+	.navbar nav li{
+		position: relative;
+		display: inline-block;
+		padding-left: 0vw;
+		padding-right: 0vw;
+		padding-top:50px;
+		padding-bottom:0px;
+	}
+
+	.ampersand{
+		text-decoration: none;
+		color:white;
+		background-color: black;
+		font-size: 55px;
+		font-family: 'Roboto', sans-serif;
+
+
+	}
+    
+	.trump{
+		text-decoration: none;
+		color:white;
+		background-color: #AE3446;
+		font-size: 45px;
+		font-family: 'Roboto', sans-serif;
+		padding-left: 15px;
+		padding-top:15px;
+		padding-bottom:15px;
+		padding-right:15vw;	
+		
+	}
+	.women{
+		text-decoration: none;
+		color:white;
+		background-color: #1796BD;
+		font-size: 45px;
+		font-family: 'Roboto', sans-serif;
+		padding-left: 15vw;
+		padding-top:15px;
+		padding-bottom:15px;
+		padding-right:15px;
+
+	}
+	.abt-text{
+		font-family: 'Roboto', sans-serif;
+		color: #ffffff;
+		font-size: 24px;
+		padding-top:50px;
+		padding-left:200px;
+		padding-right:200px;
+		padding-bottom:100px;
+
+}
+
+@media all and (max-width: 1025px) {
+
+	div .women {
+		
+		padding-left:15px;
+	}
+	div .trump {
+		
+		padding-right:15px;
+	}
+}
+
+</style>
+<body>
+<div class="navbar">
+		<nav>
+			<li><div class="women" href="#women">Women's Marches</div></li>
+			<li><div class="ampersand">&</a></li>
+
+			<li><div class="trump" href="#trump">Trump Rallies</div></li>
+
+		</nav>
+	</div>
+	
+<div class="screen"></div>
+	
+<div class="bottom-container"></div>
+
+<div class="about">
+	<p class ="abt-text">This interactive project maps the locations and sizes of Donald Trump's speeches and rallies during the 2016 presidential campaign against the locations and sizes of women's marches that protested Trump's inauguration in 2017. 
+			<br><br>
+	The map demonstrates the complexity and political cognitive dissonance that contextualized Trump's election, with women's marches and Trump rallies sometimes taking place in the same towns.
+			<br><br><br>
+	Data source: <a href="https://public.enigma.com/datasets/protest-data-womens-marches-crowd-sizes/40865117-48fc-4abe-b384-13edc370a523">Enigma, "Protest Data - Women's March Crowd Sizes"</a>
+	</p>
+</div>
+
+	<script>
+
+//VARIABLES AND GENERAL SETUP
+
+	var width = 1000;
+	var	height = 500;
+	var zoom = d3.zoom()
+		.on("zoom", zoomed)
+		.filter(function(){
+			return d3.event.type != "mouseover"
+		});
+
+	var selectedPoint;
+	var color;
+
+	var divTooltip = d3.select(".screen").append("div")	
+    	.attr("class", "tooltip_red")				
+    	.style("opacity", 0);
+
+    var divPullout = d3.select(".bottom-container").append("div")
+    	.attr("class", "pullout")
+    	//.style("opacity", 0)
+   
+    var svg2 = d3.select(".bottom-container").append("div")
+    	.attr("class", "svg2")
+
+    barContainer = svg2.append("svg")
+        .attr("width",400)
+    	.attr("height",50);
+
+	var svg = d3.select(".screen")
+		.append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.style("pointer-events", "all")
+		.call(zoom);
+
+
+	var geography = svg.append("g");
+	var women = svg.append("g");
+	var trump = svg.append("g");
+
+	var albersProjection = d3.geoAlbers()
+		.scale(1000)
+		.rotate([96, 2])
+		.translate([480,300]);
+
+	var geoPath = d3.geoPath()
+		.projection(albersProjection);
+
+
+//BASEMAP
+
+geography.selectAll("path")
+		.data(geography_outline.features)
+		.enter()
+		.append("path")
+		.attr("fill", "#000")
+		.attr("stroke", "lightgrey")
+		.attr("class", "map")
+		.attr("d", geoPath);
+
+//WOMEN'S MARCH DATA AND MOUSEOVER BEHAVIORS
+
+women.selectAll("path")
+		.data(womens_marches_json.features)
+		.enter()
+		.append("path")
+		.attr("fill", "#1796BD")
+		.attr("class","points")
+		.attr("d", geoPath)
+
+		.on("mouseover", function(d) {
+			d3.select(this)
+				.raise()
+				.transition()
+				.duration(200)
+				.attr("fill", "white")
+            divTooltip.transition()		
+                .duration(200)		
+                .style("opacity", .9)
+                .style("background", "lightsteelblue");		
+            divTooltip	.html(d.properties.Place)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+				
+        .on("mouseout", function(d) {
+        	d3.select(this)
+        	.transition()
+        	.duration(200)
+        	.attr("fill", "#1796BD");
+            divTooltip.transition()		
+                .duration(500)		
+                .style("opacity", 0)
+                });		
+
+//TRUMP RALLY DATA AND MOUSEOVER BEHAVIORS
+
+trump.selectAll("path")
+		.data(trump_rallies_json.features)
+		.enter()
+		.append("path")
+		.attr("fill", "#AE3446")
+		.attr("class","points")
+		.attr("d", geoPath)
+
+		.on("mouseover", function(d) {
+			d3.select(this)
+				.raise()
+				.transition()
+				.duration(200)
+				.attr("fill", "white")	
+            divTooltip.transition()		
+                .duration(200)		
+                .style("opacity", 0.9)
+                .style("background", "darksalmon");		
+            divTooltip	.html(d.properties.Place)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");
+
+            })
+		.on("mouseout", function(d) {
+        	d3.select(this)
+        	.transition()
+        	.duration(200)
+        	.attr("fill", "#AE3446");
+            divTooltip.transition()		
+                .duration(500)		
+                .style("opacity", 0)
+                });		
+
+//ONCLICK SELECTION BEHAVIORS
+
+d3.selectAll(".points").on("click", function(d) {
+        	selectedPoint = this;
+        	d3.select(selectedPoint)
+        		.raise()
+        		.transition()
+        		.duration(200)
+        		.attr("stroke", "white")
+
+        	divPullout	.html(d.properties.category + "<br/>" + d.properties.Place + "<br/>" + d.properties.Date_Readable + "<br/>"+ d.properties.NumberofPeople + " people")	;
+        	d3.selectAll(".points").filter(function(d,i){
+        		return(this !== selectedPoint);
+        	}).transition()
+        	.duration(200)
+        	.attr("stroke", null)
+
+    console.log(d.properties.NumberofPeople);
+
+    var square = barContainer.append("rect")
+    	.attr("x",0)
+    	.attr("y",0)
+    	.attr("width",400)
+    	.attr("height",65)
+    	.attr("fill", "black");
+
+    var radius = d3.scaleSqrt()
+    	.domain([0,465000])
+    	.range([0,400]);
+
+    var bkgd = barContainer.append("rect")
+    	.attr("x",0)
+    	.attr("y", 0)
+    	.attr("width", 400)
+    	.attr("height", 20)
+    	.attr("fill", null)
+    	.attr("stroke", "lightgrey");
+
+    	if(d.properties.category=="Women's March"){
+    		color="#1796BD";
+    	}else{
+    		color="#AE3446";
+    	}
+	var graph = barContainer.append("rect")
+		.attr("x", 1)
+		.attr("y", 1)
+		.attr("width", radius(d.properties.NumberofPeople))
+		.attr("height", 18)
+		.attr("fill",color);
+		console.log(radius(d.properties.NumberofPeople));	
+
+		});
+
+        		
+//ZOOM AND PAN FUNCTION
+
+function zoomed() {
+		geography.attr("transform", d3.event.transform);
+		women.attr("transform", d3.event.transform);
+		trump.attr("transform", d3.event.transform);
+	}
+
+	</script>
+</body>
+</html>
